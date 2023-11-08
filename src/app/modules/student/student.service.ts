@@ -70,10 +70,7 @@ const getStudent = async (
 };
 
 const getStudentById = async (id: string): Promise<IStudent | null> => {
-  const res = await Student.findById(id)
-    .populate("academicSemester")
-    .populate("academicDepartment")
-    .populate("academicFaculty");
+  const res = await Student.findById(id);
   return res;
 };
 
@@ -114,7 +111,7 @@ const deleteStudentById = async (id: string): Promise<IStudent | null> => {
 
   try {
     session.startTransaction();
-    const student = await Student.findOneAndDelete({ id });
+    const student = await Student.findByIdAndDelete(id);
 
     if (!student) {
       throw new ApiError(
@@ -125,7 +122,7 @@ const deleteStudentById = async (id: string): Promise<IStudent | null> => {
 
     res = student;
 
-    const user = await User.deleteOne({ id });
+    const user = await User.deleteOne({ student: id });
 
     if (!user) {
       throw new ApiError(
