@@ -86,6 +86,6 @@ const createStudent = async (
   return userInfo || null;
 };
 
-export const StudentService = {
+export const UserService = {
   createStudent,
 };
