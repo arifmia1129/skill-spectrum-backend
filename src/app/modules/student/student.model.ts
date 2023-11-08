@@ -64,7 +64,7 @@ export const studentSchema = new Schema<
     },
     profileImage: {
       type: String,
-      default: "",
+      default: "https://images.unsplash.com/photo-1586213411132-adf8a78b221f",
     },
   },
   {
