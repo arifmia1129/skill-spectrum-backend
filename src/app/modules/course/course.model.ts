@@ -43,6 +43,7 @@ export const CourseSchema = new Schema<ICourse, CourseModel, ICourseMethods>(
       enum: {
         values: ["open", "closed", "in-progress"],
       },
+      default: "in-progress",
     },
     syllabus: [
       {

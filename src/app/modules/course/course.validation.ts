@@ -51,7 +51,9 @@ const createCourseSchema = z.object({
 });
 
 // Zod schema for the course update, which may not require all fields
-const updateCourseSchema = createCourseSchema.partial();
+const updateCourseSchema = z.object({
+  body: createCourseSchema.shape.body.partial(),
+});
 
 export const CourseValidation = {
   create: createCourseSchema,
