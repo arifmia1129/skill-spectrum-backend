@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
@@ -86,6 +87,13 @@ const createStudent = async (
   return userInfo || null;
 };
 
+const getProfile = async (userInfo: any) => {
+  const { userId, role } = userInfo;
+
+  return await User.findOne({ role, id: userId }).populate("student");
+};
+
 export const UserService = {
   createStudent,
+  getProfile,
 };

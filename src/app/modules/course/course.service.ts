@@ -72,7 +72,7 @@ const getCourseService = async (
 };
 
 const getCourseByIdService = async (id: string): Promise<ICourse | null> => {
-  const res = await Course.findById(id);
+  const res = await Course.findById(id).populate("prerequisites");
   return res;
 };
 

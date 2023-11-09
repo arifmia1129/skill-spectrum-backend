@@ -30,6 +30,15 @@ const createEnrollmentService = async (
     throw new ApiError("Student not found", httpStatus.NOT_FOUND);
   }
 
+  const isAlreadyEnrolled = await Enrollment.findOne({
+    courseId,
+    studentId,
+  });
+
+  if (isAlreadyEnrolled) {
+    throw new ApiError("Course already enrolled", httpStatus.BAD_REQUEST);
+  }
+
   const res = await Enrollment.create(enrollmentInfo);
   return res;
 };
