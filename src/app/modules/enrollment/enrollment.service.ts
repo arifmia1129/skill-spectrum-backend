@@ -120,7 +120,11 @@ const updateEnrollmentByIdService = async (
   id: string,
   payload: Partial<IEnrollment>,
 ): Promise<IEnrollment | null> => {
-  const { courseId, studentId } = payload;
+  const { courseId, studentId, status } = payload;
+
+  if (status === "completed") {
+    payload.progress = 100;
+  }
 
   if (courseId) {
     const isCourseExist = await Course.findById(courseId);
