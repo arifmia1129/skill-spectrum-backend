@@ -46,6 +46,7 @@ const createEnrollmentService = async (
 const getEnrollmentService = async (
   filters: Filter,
   paginationOptions: Pagination,
+  userId: string,
 ): Promise<ResponseWithPagination<IEnrollment[]>> => {
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(paginationOptions);
@@ -56,9 +57,19 @@ const getEnrollmentService = async (
     sortCondition[sortBy] = sortOrder;
   }
 
+  const isStudentExist = await Student.findOne({ id: userId });
+
+  if (!isStudentExist) {
+    throw new ApiError("Student not found", httpStatus.NOT_FOUND);
+  }
+
   const { searchTerm, ...filtersData } = filters;
 
   const andCondition = [];
+
+  andCondition.push({
+    studentId: isStudentExist._id,
+  });
 
   if (searchTerm) {
     andCondition.push({

@@ -11,6 +11,7 @@ import { EnrollmentService } from "./enrollment.service";
 import { IEnrollment } from "./enrollment.interface";
 import httpStatus from "../../../shared/httpStatus";
 import { EnrollmentFilterableField } from "./enrollment.constant";
+import { JwtPayload } from "jsonwebtoken";
 
 const createEnrollment = catchAsync(async (req: Request, res: Response) => {
   const result: IEnrollment | null = await EnrollmentService.create(req.body);
@@ -24,10 +25,15 @@ const createEnrollment = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getEnrollment = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as JwtPayload;
   const filterData: Filter = pick(req.query, EnrollmentFilterableField);
   const paginationOptions: Pagination = pick(req.query, paginationField);
 
-  const result = await EnrollmentService.getAll(filterData, paginationOptions);
+  const result = await EnrollmentService.getAll(
+    filterData,
+    paginationOptions,
+    userId,
+  );
 
   sendResponse<IEnrollment[]>(res, {
     statusCode: httpStatus.OK,
